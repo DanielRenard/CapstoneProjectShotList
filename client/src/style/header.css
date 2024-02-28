@@ -1,0 +1,19 @@
+.Header {
+    padding: 20px;
+    text-align: left;
+    color: Black;
+    /* font-family: 'Times New Roman', Times, serif; */
+    font-size: 30px;
+    background-color: aqua;
+}
+
+.Header .HeaderImage {
+    height: 120px;
+    /* width: 100px; */
+    display: inline;
+}
+
+.Header .HeaderTitle {
+    display: inline;
+    padding: 20px;
+}

@@ -1,2 +1,2 @@
 # CapstoneProjectShotList
-Capstone Project Sho tList
+Capstone Project Shot List
