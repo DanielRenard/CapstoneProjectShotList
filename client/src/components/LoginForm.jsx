@@ -34,7 +34,8 @@ function LoginForm() {
         .then((data) => {
           // if user not found what do we want our code to do? allow another login? setSubmitResult("user not Found")?
           if (data.result === 404) {
-            setSubmitResult("Email doesn't exist");
+            navigate("/signup")
+            // setSubmitResult("Email doesn't exist");
           } else if (data.result === 200) {
             setSubmitResult("Successful login");
             handleUpdateUser({ email: userEmail})

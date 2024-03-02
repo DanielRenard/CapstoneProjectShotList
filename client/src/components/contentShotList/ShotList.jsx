@@ -8,15 +8,36 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
+import { useState } from "react";
+import axios from "axios";
+
+import { useEffect } from "react";
 
 export default function ShotList() {
-  const cameraList = CameraData?.map((camera) => {
-    // const shotList = camera.shotList.map((shot, index) => {
-    //   return <ShotListItem key={index} item={shot} />;
-    // });
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8085/api/shots");
+      // Sets up the data to currentShots
+      console.log(response.data.data);
+      setCurrentShots(response.data.data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      // Just console logging to catch potential errors
+    }
+  };
+  const [currentShots, setCurrentShots] = useState([]);
+
+  useEffect(() => {
+    fetchData(); //calling the function
+    // console.log(currentShots)
+  }, []);
+  // export default function ShotList()  {
+
+  const cameraList = currentShots?.map((camera) => {
 
     const columns = [
-      { field: "id", headerName: "ID", width: 70 },
+      { field: "cameraId", headerName: "ID", width: 70 },
       { field: "name", headerName: "Name", width: 200 },
       { field: "setPiece", headerName: "Set Piece", width: 130 },
       {
@@ -28,11 +49,6 @@ export default function ShotList() {
                 <img className="tableImage" width="100px" src={params.value}/>
             )
         }
-        // valueGetter: (params) => {console.log(params)
-        // let imgTag = document.createElement('img')
-        // imgTag.src = params.value
-        // return imgTag
-        // }
       },
       {
         field: "selection",
@@ -41,7 +57,7 @@ export default function ShotList() {
         sortable: false,
         width: 250,
         valueGetter: (params) => {
-          return `${params.row.name || ""} ${params.row.id || ""}`},
+          return `${params.row.name || ""} ${params.row.cameraId || ""}`},
       },
     ];
 

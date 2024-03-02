@@ -2,7 +2,7 @@ export default function ShotListItem(props) {
 
   return (
     <div className="ShotListItem">
-      {props.item.id},
+      {props.item.cameraId},
       {props.item.name},
       {props.item.setPiece},
       {props.item.show},

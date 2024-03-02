@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 // Adds a POST route to create a new shot
 //http://localhost:8085/api/shots/newshot  Adds a POST route to return new shot
 router.post("/newshot", (req, res) => {
+  console.log(req.body);
   Controllers.shotController.createShot(req.body, res);
 });
 
