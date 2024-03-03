@@ -8,6 +8,18 @@ router.get("/", (req, res) => {
   Controllers.shotController.getShots(res);
 });
 
+// Adds a GET route to return all shots
+//http://localhost:8085/api/shots/  Adds a GET route to return all shots
+router.get("/usershots/:id", (req, res) => {
+  Controllers.shotController.getUserShots(req, res);
+});
+
+// Adds a GET route to return all shots
+//http://localhost:8085/api/shots/  Adds a GET route to return all shots
+router.get("/userqueue/:id", (req, res) => {
+  Controllers.shotController.getUserQueueShots(req, res);
+});
+
 // Adds a POST route to create a new shot
 //http://localhost:8085/api/shots/newshot  Adds a POST route to return new shot
 router.post("/newshot", (req, res) => {

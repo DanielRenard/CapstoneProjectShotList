@@ -1,8 +1,8 @@
-import CameraData from "../../data/CameraData";
+// import CameraData from "../../data/CameraData";
 import ShotListItem from "./ShotListItem";
 import * as React from "react";
 import Accordion from "@mui/material/Accordion";
-import AccordionActions from "@mui/material/AccordionActions";
+// import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -10,11 +10,35 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import axios from "axios";
-
 import { useEffect } from "react";
 
-export default function ShotList() {
+const columns = [
+  { field: "cameraId", headerName: "ID", width: 70 },
+  { field: "name", headerName: "Name", width: 200 },
+  { field: "setPiece", headerName: "Set Piece", width: 130 },
+  {
+    field: "image",
+    headerName: "Image",
+    width: 110,
+    renderCell: (params) => {
+      return <img className="tableImage" width="100px" src={params.value} />;
+    },
+  },
+  {
+    field: "selection",
+    headerName: "Select",
+    description: "This column has a value getter and is not sortable.",
+    sortable: false,
+    width: 250,
+    valueGetter: (params) => {
+      return `${params.row.name || ""} ${params.row.cameraId || ""}`;
+    },
+  },
+];
 
+// const rows = []
+
+export default function ShotList() {
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:8085/api/shots");
@@ -35,32 +59,6 @@ export default function ShotList() {
   // export default function ShotList()  {
 
   const cameraList = currentShots?.map((camera) => {
-
-    const columns = [
-      { field: "cameraId", headerName: "ID", width: 70 },
-      { field: "name", headerName: "Name", width: 200 },
-      { field: "setPiece", headerName: "Set Piece", width: 130 },
-      {
-        field: "image",
-        headerName: "Image",
-        width: 110,
-        renderCell: (params) => {
-            return (
-                <img className="tableImage" width="100px" src={params.value}/>
-            )
-        }
-      },
-      {
-        field: "selection",
-        headerName: "Select",
-        description: "This column has a value getter and is not sortable.",
-        sortable: false,
-        width: 250,
-        valueGetter: (params) => {
-          return `${params.row.name || ""} ${params.row.cameraId || ""}`},
-      },
-    ];
-
     return (
       <div key={camera.name}>
         <Accordion>
@@ -74,7 +72,8 @@ export default function ShotList() {
           <AccordionDetails>
             <div style={{ height: 400, width: "100%" }}>
               <DataGrid
-                rows={camera.shotList}
+                getRowId={(row) => row._id}
+                rows={currentShots}
                 columns={columns}
                 initialState={{
                   pagination: {

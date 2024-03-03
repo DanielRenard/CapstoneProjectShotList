@@ -1,5 +1,8 @@
 import { useState } from "react";
 import ShotForm from "./ShotForm";
+import { useEffect } from "react";
+import axios from "axios";
+
 
 function Card({ shot, onDeleteEvent, onUpdate }) {
   // const parseImageData = (data) => {
@@ -16,6 +19,29 @@ function Card({ shot, onDeleteEvent, onUpdate }) {
   const [cardImage, setCardImage] = useState("");
 
   const [editCard, setEditCard] = useState(false);
+
+  const [shotUser, setShotUser] = useState();
+
+  
+  const fetchData = async () => {
+    console.log("+++++", shot)
+    try {
+      const response = await axios.get(`http://localhost:8085/api/users/${shot.user}`);
+      // Sets up the data to currentShots
+      console.log("------", shot.user, response.data.data);
+      setShotUser(response.data.data[0]);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      // Just console logging to catch potential errors
+    }
+  };
+  
+
+  useEffect(() => {
+    fetchData(); //calling the function
+    // console.log(currentShots)
+  }, []);
+
 
   const toggleEditMode = () => {
     setEditCard(!editCard);
@@ -38,19 +64,38 @@ function Card({ shot, onDeleteEvent, onUpdate }) {
   let template;
 
   if (!editCard) {
-    template = (
-      <div>
-        <img width={300} src={JSON.parse(shot.image)}></img>
-        <h2 key={shot._id}>User: {shot.userName}</h2>
-        <h3>Shot Name: {shot.name} </h3>
-        <h3>Camera: {shot.cameraNumber}</h3>
-        <h3>Id: {shot.cameraId} </h3>
-        <h3>Set Piece: {shot.setPiece} </h3>
-        <h3>Show: {shot.show}</h3>
-        <p>Description: {shot.description}</p>
-        <button onClick={toggleEditMode}>Edit Card</button>
-      </div>
-    );
+    // console.log(shot.image)
+    try {
+      // if statement shorthand; check for image before parsing; need to make api call for taggedUsers similar to shotUser gonna be an array and ea will be an user
+      template = (
+        <div>
+          <img width={300} src={shot.image?JSON.parse(shot.image):""}></img> 
+          <h2 key={shot._id}>User: {shotUser?.userName}</h2>
+          <h3>Shot Name: {shot.name} </h3>
+          <h3>Camera: {shot.cameraNumber}</h3>
+          <h3>Id: {shot.cameraId} </h3>
+          <h3>Set Piece: {shot.setPiece} </h3>
+          <h3>Show: {shot.show}</h3>
+          <p>Description: {shot.description}</p>
+          <p>Tagged Users: {shot.taggedUsers}</p>
+          <button onClick={toggleEditMode}>Edit Card</button>
+        </div>
+      );
+    }catch(e){ console.log(e, shot) }
+
+    // template = (
+    //   <div>
+    //     <img width={300} src={JSON.parse(shot.image)}></img>
+    //     <h2 key={shot._id}>User: {shot.userName}</h2>
+    //     <h3>Shot Name: {shot.name} </h3>
+    //     <h3>Camera: {shot.cameraNumber}</h3>
+    //     <h3>Id: {shot.cameraId} </h3>
+    //     <h3>Set Piece: {shot.setPiece} </h3>
+    //     <h3>Show: {shot.show}</h3>
+    //     <p>Description: {shot.description}</p>
+    //     <button onClick={toggleEditMode}>Edit Card</button>
+    //   </div>
+    // );
   } else {
     template = (
       <div>

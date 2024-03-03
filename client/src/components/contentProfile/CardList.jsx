@@ -4,15 +4,16 @@ import ShotForm from "./ShotForm";
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
-import 'C:/Users/danie/git/MiniProject3/client/src/style/card.css' //find proper file path
+import '/src/style/card.css';
+import { useUserContext } from "/src/context/userContext";
 
 function CardList() {
-
+  const {currentUser} = useUserContext();
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:8085/api/shots");
+      const response = await axios.get(`http://localhost:8085/api/shots/usershots/${currentUser._id}`);
       // Sets up the data to currentShots
-      console.log(response.data.data);
+      console.log(response.data);
       setCurrentShots(response.data.data);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -21,8 +22,22 @@ function CardList() {
   };
   const [currentShots, setCurrentShots] = useState([]);
 
+  const fetchTaggedShots = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8085/api/shots/userqueue/${currentUser._id}`);
+      // Sets up the data to currentShots
+      console.log(response.data);
+      setTaggedShots(response.data.data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      // Just console logging to catch potential errors
+    }
+  };
+  const [taggedShots, setTaggedShots] = useState([])
+
   useEffect(() => {
     fetchData(); //calling the function
+    fetchTaggedShots();
     // console.log(currentShots)
   }, []);
 
@@ -73,12 +88,20 @@ function CardList() {
       onUpdate={handleUpdate}
     />
   ));
-
+  const taggedShotComponent = taggedShots.map((shot) => (
+    <Card
+      key={shot._id}
+      shot={shot}
+      onDeleteEvent= {handleDelete}
+      onUpdate={handleUpdate}
+    />
+  ));
   return (
     <>
       <div className="gridWrapper">
         <ShotForm onSubmit={handleAddShot} />
         {shotItemsComponent}
+        {taggedShotComponent}
       </div>
     </>
   );

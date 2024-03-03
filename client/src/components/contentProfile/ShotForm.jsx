@@ -1,8 +1,12 @@
 import { useContext, useState } from "react";
+import { useUserContext } from "/src/context/userContext";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function ShotForm({ onSubmit, aShot = {} }) {
-  const [userName, setUserName] = useState(aShot.userName || "");
-  const [cameraNumber, setCameraNumber ] = useState(aShot.cameraNumber)
+  // const [userName, setUserName] = useState(aShot.userName || "");
+  const { currentUser } = useUserContext();
+  const [cameraNumber, setCameraNumber] = useState(aShot.cameraNumber || "");
   const [cameraId, setCameraId] = useState(aShot.cameraId || "");
   const [name, setName] = useState(aShot.name || "");
   const [setPiece, setSetPiece] = useState(aShot.setPiece || "");
@@ -10,23 +14,53 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
   const [show, setShow] = useState(aShot.show || "");
   const [description, setDescription] = useState(aShot.description || "");
   const [dataBaseID, setDataBaseId] = useState(aShot._id || "");
+  const [userDirectory, setUserDirectory] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8085/api/users/`);
+      // Sets up the data to currentShots
+      console.log("------", response.data.data);
+      let filterUsers = response.data.data.filter((taggedUser) => {
+        return (
+          taggedUser._id != currentUser._id && taggedUser.userType != "user"
+        );
+      });
+      setUserDirectory(filterUsers); //need to filter data ie diretor or producer; not currentUser
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      // Just console logging to catch potential errors
+    }
+  };
+  useEffect(() => {
+    fetchData(); //calling the function
+    // console.log(currentShots)
+  }, []);
 
   function onImageChange(e) {
-    console.log("image changed", e)
-    let reader = new FileReader()
+    console.log("image changed", e);
+    let reader = new FileReader();
     reader.addEventListener("load", (e) => {
-      // console.log("++++", e.target.result) 
-      setImage(JSON.stringify(e.target.result)) // this is the other part that i broke w/ shema. should take in e.target.result
-      })
-    reader.readAsDataURL(e.target.files[0])
+      // console.log("++++", e.target.result)
+      setImage(JSON.stringify(e.target.result)); // this is the other part that i broke w/ shema. should take in e.target.result
+    });
+    reader.readAsDataURL(e.target.files[0]);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(image)
+    // console.log(image)
+
+    const taggedUsers = Array.from(
+      document.querySelectorAll(
+        ".shotFormUserTags input[type='checkbox']:checked"
+      )
+    ).map((input) => input.value);
+
     const data = {
       dataBaseID: dataBaseID,
-      userName: userName,
+      user: currentUser._id,
+      // userName: userName,
       cameraNumber: cameraNumber,
       cameraId: cameraId,
       name: name,
@@ -34,14 +68,26 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
       image: image,
       show: show,
       description: description,
+      taggedUsers: taggedUsers,
     };
-    
+
     // let reader = new FileReader()
-    // reader.addEventListener("load", (event) => {console.log(event) 
+    // reader.addEventListener("load", (event) => {console.log(event)
     //   onSubmit(data);})
     onSubmit(data);
     // reader.readAsDataURL(image)
   };
+
+  console.log("=====", userDirectory);
+
+  let userDirectoryChecks = userDirectory?.map((user) => {
+    return (
+      <label key={user._id}>
+        <input value={user._id} type="checkbox" />
+        {user.userName}
+      </label>
+    );
+  });
 
   return (
     <>
@@ -49,6 +95,10 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
         <form onSubmit={handleSubmit}>
           <div className="formRow">
             <label>
+              User:
+              {currentUser.userName}
+            </label>
+            {/* <label>
               User Name
               <input
                 type="text"
@@ -57,7 +107,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
                 onChange={(e) => setUserName(e.target.value)}
               />
             </label>
-            <br />
+            <br /> */}
             <label>
               Shot Name
               <input
@@ -102,7 +152,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
             <label>
               Camera Number
               <input
-                type="text"
+                type="number"
                 value={cameraNumber}
                 name="camerNumber"
                 onChange={(e) => setCameraNumber(e.target.value)}
@@ -129,6 +179,10 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
               />
             </label>
             <br />
+            <div className="shotFormUserTags">
+              Tagged Users:
+              {userDirectoryChecks}
+            </div>
             <input
               type="hidden"
               value={dataBaseID}
