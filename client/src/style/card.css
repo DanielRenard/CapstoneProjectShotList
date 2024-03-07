@@ -1,12 +1,24 @@
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    text-align: center;
-    background-color: #f1f1f1;
-  }
-  
-  .gridWrapper {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 25% 25% 25% 25%;
-  }
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1);
+  margin: 10px;
+  padding: 15px;
+  text-align: center;
+  background-color: rgb(184, 224, 224);
+}
+
+.input {
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1); */
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.gridWrapper {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 25% 25% 25% 25%;
+}

@@ -2,6 +2,7 @@
 .navbar {
   overflow: hidden;
   background-color: rgb(10, 107, 167);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
   position: sticky;
   top: 0;
 }
@@ -16,9 +17,24 @@
   text-decoration: none;
 }
 
-/* Right-aligned link */
-.right {
-  float: right;
+.button {
+  background-color: rgb(10, 107, 167);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+  border: none;
+  color: white;
+  padding: 10px 14px 10px 11px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  /* font-size: 16px; */
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #f2ee0b;
+  color: black;
 }
 
 /* Change color on hover */

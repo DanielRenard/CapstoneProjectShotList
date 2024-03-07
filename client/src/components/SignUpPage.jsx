@@ -4,9 +4,9 @@ import { MyThemeContext } from "../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
 function SignUpPage() {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [userName, setUserName ] = useState('')
   const [userEmail, setUserEmail] = useState('')
+  const [userType, setUserType] = useState('user')
   const [userPassword, setUserPassword] = useState('')
   const [submitResult, setSubmitResult] = useState('')
 
@@ -23,7 +23,7 @@ function SignUpPage() {
       setSubmitResult('Password can not match user email.')
     } else {
       // want fetch from backend route to post/create new user
-      const data = { email: userEmail, password: userPassword, firstName: firstName, lastName: lastName };
+      const data = { email: userEmail, password: userPassword, userName: userName, userType: userType };
 
       let result = await fetch('http://localhost:8085/api/users/signup', {
         method: "POST",
@@ -34,11 +34,9 @@ function SignUpPage() {
       .then((data) => {
         console.log(data)
       })
-
-
-      setSubmitResult('Successful login')
-      handleUpdateUser({ email: userEmail})
-      navigate('/profile')
+      // setSubmitResult('Successful login')
+      // handleUpdateUser(response.data[0])
+      navigate('/login')
     }
   }
 
@@ -53,14 +51,19 @@ function SignUpPage() {
       <form onSubmit={handleSubmit}>
         <div className='formRow'>
           <label>
-            First Name
-            <input type="text" value={firstName} name="firstName"
-            onChange={(e) => setFirstName(e.target.value)} />
+            User Name:
+            <input type="text" value={userName} name="userName"
+            onChange={(e) => setUserName(e.target.value)} />
           </label>
           <label>
-            Last Name
-            <input type="text" value={lastName} name="lastName"
-            onChange={(e) => setLastName(e.target.value)} />
+            User Type:
+            <select type="text" value={userType} name="userType"
+            onChange={(e) => setUserType(e.target.value)}>
+              <option value="user">User</option>
+              <option value="producer">Producer</option>
+              <option value="director">Director</option>
+              <option value="admin">Administrator</option>
+            </select>
           </label>
           <label>Email Address:
             {/* Use a controlled form input - value AND onChange */}

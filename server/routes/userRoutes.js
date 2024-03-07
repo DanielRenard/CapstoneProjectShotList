@@ -8,6 +8,12 @@ router.get("/", (req, res) => {
   Controllers.userController.getUsers(res);
 });
 
+// Adds a GET route to return a user
+//http://localhost:8085/api/users/<id>  Adds a GET route to return a user
+router.get("/:id", (req, res) => {
+  Controllers.userController.getUser(req, res);
+});
+
 // Adds a POST route to create a new user
 //http://localhost:8085/api/users/signup  Adds a POST route to return new user
 router.post("/signup", (req, res) => {

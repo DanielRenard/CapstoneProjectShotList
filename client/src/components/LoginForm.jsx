@@ -14,7 +14,7 @@ function LoginForm() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    console.log("button clicked");
+    // console.log("button clicked");
 
     e.preventDefault();
     if (userPassword.length < 5) {
@@ -31,15 +31,18 @@ function LoginForm() {
         headers: { "Content-Type": "application/json" },
       }) // keys to tell our server what language we're speaking: application/json
         .then((response) => response.json()) //convert back from json
-        .then((data) => {
+        .then((response) => {
           // if user not found what do we want our code to do? allow another login? setSubmitResult("user not Found")?
-          if (data.result === 404) {
-            setSubmitResult("Email doesn't exist");
-          } else if (data.result === 200) {
+          if (response.result === 404) {
+            navigate("/signup")
+            // setSubmitResult("Email doesn't exist");
+          } else if (response.result === 200) {
             setSubmitResult("Successful login");
-            handleUpdateUser({ email: userEmail})
-            navigate("/profile");
-          } else if (data.result === 400) {
+            let cUser = response.data[0]
+            handleUpdateUser(cUser)
+            if (cUser.userType == 'user' ) navigate("/shotList")
+           else navigate("/profile");
+          } else if (response.result === 400) {
             setSubmitResult("Password not correct");
           }
           // console.log("post response", data.result);

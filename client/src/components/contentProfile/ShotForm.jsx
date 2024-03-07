@@ -1,120 +1,183 @@
 import { useContext, useState } from "react";
+import { useUserContext } from "/src/context/userContext";
+import { useEffect } from "react";
+import axios from "axios";
 
-export default function ShotForm({ onSubmit, aShot={} }) {
-  const [userName, setUserName] = useState(aShot.userName || "");
-  const [id, setId] = useState(aShot.id || "");
+export default function ShotForm({ onSubmit, aShot = {} }) {
+  const { currentUser } = useUserContext();
+  const [cameraNumber, setCameraNumber] = useState(aShot.cameraNumber || "");
+  const [cameraId, setCameraId] = useState(aShot.cameraId || "");
   const [name, setName] = useState(aShot.name || "");
   const [setPiece, setSetPiece] = useState(aShot.setPiece || "");
   const [image, setImage] = useState(aShot.image || "");
   const [show, setShow] = useState(aShot.show || "");
   const [description, setDescription] = useState(aShot.description || "");
   const [dataBaseID, setDataBaseId] = useState(aShot._id || "");
-  // const [submitResult, setSubmitResult] = useState("");
+  const [userDirectory, setUserDirectory] = useState([]);
 
-  // const navigate = useNavigate()
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8085/api/users/`);
+      // Sets up the data to currentShots
+      // console.log("------", response.data.data);
+      let filterUsers = response.data.data.filter((taggedUser) => {
+        return (
+          taggedUser._id != currentUser._id && taggedUser.userType != "user"
+        );
+      });
+      setUserDirectory(filterUsers); //need to filter data ie director or producer; not currentUser
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      // Just console logging to catch potential errors
+    }
+  };
+  useEffect(() => {
+    fetchData(); //calling the function
+    // console.log(currentShots)
+  }, []);
+
+  function onImageChange(e) {
+    let reader = new FileReader();
+    reader.addEventListener("load", (e) => {
+      setImage(JSON.stringify(e.target.result)); // this is the other part that i broke w/ schema. should take in e.target.result
+    });
+    reader.readAsDataURL(e.target.files[0]);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(image)
+
+    const taggedUsers = Array.from(
+      document.querySelectorAll(
+        ".shotFormUserTags input[type='checkbox']:checked"
+      )
+    ).map((input) => input.value);
+
     const data = {
       dataBaseID: dataBaseID,
-      userName: userName,
-      id: id,
+      user: currentUser._id,
+      cameraNumber: cameraNumber,
+      cameraId: cameraId,
       name: name,
       setPiece: setPiece,
       image: image,
       show: show,
       description: description,
+      taggedUsers: taggedUsers,
     };
 
+    // let reader = new FileReader()
+    // reader.addEventListener("load", (event) => {console.log(event)
+    //   onSubmit(data);})
     onSubmit(data);
+    // reader.readAsDataURL(image)
   };
+
+  // console.log("=====", userDirectory);
+
+  let userDirectoryChecks = userDirectory?.map((user) => {
+    return (
+      <label key={user._id}>
+        <input value={user._id} type="checkbox" />
+        {user.userName}
+      </label>
+    );
+  });
 
   return (
     <>
       <div className="card">
-        <form onSubmit={handleSubmit}>
-          <div className="formRow">
-            <label>
-              User Name
+        <div className="input">
+          <form onSubmit={handleSubmit}>
+            <div className="formRow">
+              <label>User: ...{currentUser.userName}</label>
+              <br />
+              <label>
+                Shot Name:
+                <input
+                  type="text"
+                  value={name}
+                  name="name"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Description:
+                <input
+                  type="text"
+                  value={description}
+                  name="description"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Image:
+                <input
+                  type="file"
+                  name="image"
+                  onChange={onImageChange}
+                />
+              </label>
+              <br />
+              <label>
+                Camera ID:
+                <input
+                  type="text"
+                  value={cameraId}
+                  name="cameraId"
+                  onChange={(e) => setCameraId(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Camera Number:
+                <input
+                  type="number"
+                  value={cameraNumber}
+                  name="camerNumber"
+                  onChange={(e) => setCameraNumber(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Set Piece:
+                <input
+                  type="text"
+                  value={setPiece}
+                  name="setPiece"
+                  onChange={(e) => setSetPiece(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Associated Show:      
+                <input
+                  type="text"
+                  value={show}
+                  name="show"
+                  onChange={(e) => setShow(e.target.value)}
+                />
+              </label>
+              <br />
+              <div className="shotFormUserTags">
+                Tag a User:
+                {userDirectoryChecks}
+              </div>
               <input
-                type="text"
-                value={userName}
-                name="userName"
-                onChange={(e) => setUserName(e.target.value)}
+                type="hidden"
+                value={dataBaseID}
+                name="_id"
+                onChange={(e) => setDataBaseId(e.target.value)}
               />
-            </label>
-            <br />
-            <label>
-              Shot Name
-              <input
-                type="text"
-                value={name}
-                name="name"
-                onChange={(e) => setName(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Description
-              <input
-                type="text"
-                value={description}
-                name="description"
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Image
-              <input
-                type="text"
-                value={image}
-                name="image"
-                onChange={(e) => setImage(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              ID
-              <input
-                type="text"
-                value={id}
-                name="id"
-                onChange={(e) => setId(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Set Piece
-              <input
-                type="text"
-                value={setPiece}
-                name="setPiece"
-                onChange={(e) => setSetPiece(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Show
-              <input
-                type="text"
-                value={show}
-                name="show"
-                onChange={(e) => setShow(e.target.value)}
-              />
-            </label>
-            <br />
-            <input
-              type="hidden"
-              value={dataBaseID}
-              name="_id"
-              onChange={(e) => setDataBaseId(e.target.value)}
-            />
-          </div>
-          <div className="formRow">
-            <button>Submit</button>
-          </div>
-        </form>
+            </div>
+            <div className="formRow">
+              <button>Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

@@ -1,9 +1,28 @@
 "use strict";
 let Models = require("../models"); // matches index.js
+const user = require("../models/user");
 
 const getShots = (res) => {
   Models.Shot.find({})
     .then((data) => res.send({ result: 200, data: data }))
+    .catch((err) => {
+      res.status(500).send({ result: 500, error: err.message });
+    });
+};
+
+const getUserShots = (req, res) => {
+  Models.Shot.find({user: req.params.id})
+    .then((data) => res.send({ result: 200, data: data }))
+    .catch((err) => {
+      res.status(500).send({ result: 500, error: err.message });
+    });
+};
+
+const getUserQueueShots = (req, res) => {
+  Models.Shot.find({}) //unsure if this'll work; in shotform, need to have a collection of other users
+    .then((data) => {
+      let filteredShots = data.filter((shot)=> shot.taggedUsers.indexOf(req.params.id) != -1)      
+      res.send({ result: 200, data: filteredShots })})
     .catch((err) => {
       res.status(500).send({ result: 500, error: err.message });
     });
@@ -47,6 +66,8 @@ const deleteShot = (req, res) => {
 
 module.exports = {
   getShots,
+  getUserShots,
+  getUserQueueShots,
   createShot,
   updateShot,
   deleteShot,
