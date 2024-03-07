@@ -14,7 +14,7 @@ function LoginForm() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    console.log("button clicked");
+    // console.log("button clicked");
 
     e.preventDefault();
     if (userPassword.length < 5) {

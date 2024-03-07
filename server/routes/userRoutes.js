@@ -8,8 +8,8 @@ router.get("/", (req, res) => {
   Controllers.userController.getUsers(res);
 });
 
-// Adds a GET route to return all users
-//http://localhost:8085/api/users/  Adds a GET route to return all users
+// Adds a GET route to return a user
+//http://localhost:8085/api/users/<id>  Adds a GET route to return a user
 router.get("/:id", (req, res) => {
   Controllers.userController.getUser(req, res);
 });

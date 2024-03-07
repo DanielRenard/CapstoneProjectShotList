@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import axios from "axios";
 
 export default function ShotForm({ onSubmit, aShot = {} }) {
-  // const [userName, setUserName] = useState(aShot.userName || "");
   const { currentUser } = useUserContext();
   const [cameraNumber, setCameraNumber] = useState(aShot.cameraNumber || "");
   const [cameraId, setCameraId] = useState(aShot.cameraId || "");
@@ -20,13 +19,13 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
     try {
       const response = await axios.get(`http://localhost:8085/api/users/`);
       // Sets up the data to currentShots
-      console.log("------", response.data.data);
+      // console.log("------", response.data.data);
       let filterUsers = response.data.data.filter((taggedUser) => {
         return (
           taggedUser._id != currentUser._id && taggedUser.userType != "user"
         );
       });
-      setUserDirectory(filterUsers); //need to filter data ie diretor or producer; not currentUser
+      setUserDirectory(filterUsers); //need to filter data ie director or producer; not currentUser
     } catch (error) {
       console.error("Error fetching data: ", error);
       // Just console logging to catch potential errors
@@ -38,11 +37,9 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
   }, []);
 
   function onImageChange(e) {
-    console.log("image changed", e);
     let reader = new FileReader();
     reader.addEventListener("load", (e) => {
-      // console.log("++++", e.target.result)
-      setImage(JSON.stringify(e.target.result)); // this is the other part that i broke w/ shema. should take in e.target.result
+      setImage(JSON.stringify(e.target.result)); // this is the other part that i broke w/ schema. should take in e.target.result
     });
     reader.readAsDataURL(e.target.files[0]);
   }
@@ -60,7 +57,6 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
     const data = {
       dataBaseID: dataBaseID,
       user: currentUser._id,
-      // userName: userName,
       cameraNumber: cameraNumber,
       cameraId: cameraId,
       name: name,
@@ -78,7 +74,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
     // reader.readAsDataURL(image)
   };
 
-  console.log("=====", userDirectory);
+  // console.log("=====", userDirectory);
 
   let userDirectoryChecks = userDirectory?.map((user) => {
     return (
@@ -92,108 +88,96 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
   return (
     <>
       <div className="card">
-        <form onSubmit={handleSubmit}>
-          <div className="formRow">
-            <label>
-              User:
-              {currentUser.userName}
-            </label>
-            {/* <label>
-              User Name
+        <div className="input">
+          <form onSubmit={handleSubmit}>
+            <div className="formRow">
+              <label>User: ...{currentUser.userName}</label>
+              <br />
+              <label>
+                Shot Name:
+                <input
+                  type="text"
+                  value={name}
+                  name="name"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Description:
+                <input
+                  type="text"
+                  value={description}
+                  name="description"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Image:
+                <input
+                  type="file"
+                  name="image"
+                  onChange={onImageChange}
+                />
+              </label>
+              <br />
+              <label>
+                Camera ID:
+                <input
+                  type="text"
+                  value={cameraId}
+                  name="cameraId"
+                  onChange={(e) => setCameraId(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Camera Number:
+                <input
+                  type="number"
+                  value={cameraNumber}
+                  name="camerNumber"
+                  onChange={(e) => setCameraNumber(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Set Piece:
+                <input
+                  type="text"
+                  value={setPiece}
+                  name="setPiece"
+                  onChange={(e) => setSetPiece(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Associated Show:      
+                <input
+                  type="text"
+                  value={show}
+                  name="show"
+                  onChange={(e) => setShow(e.target.value)}
+                />
+              </label>
+              <br />
+              <div className="shotFormUserTags">
+                Tag a User:
+                {userDirectoryChecks}
+              </div>
               <input
-                type="text"
-                value={userName}
-                name="userName"
-                onChange={(e) => setUserName(e.target.value)}
+                type="hidden"
+                value={dataBaseID}
+                name="_id"
+                onChange={(e) => setDataBaseId(e.target.value)}
               />
-            </label>
-            <br /> */}
-            <label>
-              Shot Name
-              <input
-                type="text"
-                value={name}
-                name="name"
-                onChange={(e) => setName(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Description
-              <input
-                type="text"
-                value={description}
-                name="description"
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Image
-              <input
-                type="file"
-                // value={image}
-                name="image"
-                // onChange={(e) => setImage(e.target.value)}
-                onChange={onImageChange}
-              />
-            </label>
-            <br />
-            <label>
-              Camera ID
-              <input
-                type="text"
-                value={cameraId}
-                name="cameraId"
-                onChange={(e) => setCameraId(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Camera Number
-              <input
-                type="number"
-                value={cameraNumber}
-                name="camerNumber"
-                onChange={(e) => setCameraNumber(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Set Piece
-              <input
-                type="text"
-                value={setPiece}
-                name="setPiece"
-                onChange={(e) => setSetPiece(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Show
-              <input
-                type="text"
-                value={show}
-                name="show"
-                onChange={(e) => setShow(e.target.value)}
-              />
-            </label>
-            <br />
-            <div className="shotFormUserTags">
-              Tagged Users:
-              {userDirectoryChecks}
             </div>
-            <input
-              type="hidden"
-              value={dataBaseID}
-              name="_id"
-              onChange={(e) => setDataBaseId(e.target.value)}
-            />
-          </div>
-          <div className="formRow">
-            <button>Submit</button>
-          </div>
-        </form>
+            <div className="formRow">
+              <button>Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

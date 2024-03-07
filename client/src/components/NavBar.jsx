@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
 const {currentUser, handleUpdateUser} = useUserContext();
-console.log(currentUser)
+// console.log(currentUser)
 const navigate = useNavigate();
 
 let anonymousLinks = (<><NavLink className="right" to="/signup">Sign Up</NavLink>
 <NavLink className="right" to="/login">Login</NavLink></>)
 
 let loggedInLinks = (<>
-<button onClick={() => {handleUpdateUser({})
+<button className="button" onClick={() => {handleUpdateUser({})
 navigate('/login')
 }}>Log Out</button></>)
 
@@ -60,10 +60,10 @@ Daybook
       {/* <NavLink className="right" to="/signup">Sign Up</NavLink> */}
       {/* <NavLink to="/profile">Profile</NavLink> */}
       
-      {(currentUser.userType == 'producer')?producerLinks:""}
-      {(currentUser.userType == 'director')?directorLinks:""}
-      {(currentUser.userType == 'admin')?adminLinks:""}
-      {(currentUser.userType == 'user')?userLinks:""}
+      {(currentUser.userType === 'producer')?producerLinks:""}
+      {(currentUser.userType === 'director')?directorLinks:""}
+      {(currentUser.userType === 'admin')?adminLinks:""}
+      {(currentUser.userType === 'user')?userLinks:""}
       {externalLinks}
       {(currentUser._id)?loggedInLinks:anonymousLinks}
     </div>
