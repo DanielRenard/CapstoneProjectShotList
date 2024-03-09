@@ -21,7 +21,8 @@ const columns = [
       return <img className="tableImage" width="100px" src={JSON.parse(params.value)} />;
     },
   },
-  { field: "show", headerName: "Show", width: 130 },
+  { field: "show", headerName: "Show", width: 200 },
+  { field: "description", headerName: "Description", width: 300 }
 
 ];
 

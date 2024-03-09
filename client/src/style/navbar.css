@@ -33,12 +33,12 @@
 }
 
 .button:hover {
-  background-color: #f2ee0b;
-  color: black;
+  background-color: #ff0000;
+  color: white;
 }
 
 /* Change color on hover */
 .navbar a:hover {
-  background-color: #f2ee0b;
-  color: black;
+  background-color: #ff0000;
+  color: white;
 }
