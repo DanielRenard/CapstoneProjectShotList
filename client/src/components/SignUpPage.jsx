@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useUserContext } from "../context/userContext";
 import { MyThemeContext } from "../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
+import "/src/style/signUpPage.css"
 
 function SignUpPage() {
   const [userName, setUserName ] = useState('')
@@ -47,7 +48,7 @@ function SignUpPage() {
     </div>
   )
   return (
-    <div style={{background: theme.background, color: theme.foreground}}>
+    <div className="signUp">
       <form onSubmit={handleSubmit}>
         <div className='formRow'>
           <label>

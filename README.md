@@ -1,6 +1,6 @@
 # CapstoneProjectShotList
 
-Fullstack Post App using Mongodb, Express, MUI, React, Node
+Fullstack Post App using Mongodb, Express, MUI, React, Vite, Node
 
 ## Description
 The purpose of the Mini Project is to reinforce skills that have been covered in recent modules.

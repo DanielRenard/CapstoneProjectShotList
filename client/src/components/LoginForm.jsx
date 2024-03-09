@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useUserContext } from "../context/userContext";
 import { MyThemeContext } from "../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
+import "/src/style/login.css"
 
 function LoginForm() {
   const [userEmail, setUserEmail] = useState("");
@@ -53,13 +54,13 @@ function LoginForm() {
 
   if (currentUser.email)
     return (
-      <div className={darkMode ? "dark" : "light"}>
+      <div className="logIn">
         <p>Welcome {currentUser.email}!</p>
         <button onClick={() => handleUpdateUser({})}>Log Out</button>
       </div>
     );
   return (
-    <div style={{ background: theme.background, color: theme.foreground }}>
+    <div className="logIn">
       <form onSubmit={handleSubmit}>
         <div className="formRow">
           <label>
