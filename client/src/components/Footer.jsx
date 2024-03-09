@@ -24,7 +24,7 @@ export default function Footer() {
 
   return (
     <div className="footer">
-      <span>A DJRenard FoxBot Product...</span>
+      <span className="text">A DJRenard FoxBot Product...</span>
       {externalLinks}
     </div>
   );

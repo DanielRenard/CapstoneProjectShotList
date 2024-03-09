@@ -9,7 +9,7 @@ const shotSchema = new Schema({
     name: { type: String, trim: true, required: true },
     setPiece: {type: String, trim: true },
     // image: { data: Buffer, contentType: String },
-    image: { type: String}, // this is wrong. storing data url as string. not Buffer.
+    image: { type: String},
     show: { type: String, trim: true },
     description: { type: String, trim: true },
     taggedUsers: [{type: Schema.Types.ObjectId, ref: 'user' }],
