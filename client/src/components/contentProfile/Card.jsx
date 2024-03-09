@@ -66,7 +66,7 @@ function Card({ shot, onDeleteEvent, onUpdate }) {
           <h4>Set Piece: {shot.setPiece} </h4>
           <h4>Show: {shot.show}</h4>
           <p>Description: {shot.description}</p>
-          <p>Tag a Users: {shot.taggedUsers}</p>
+          {/* <p>Tag a Users: {shot.taggedUsers}</p> */}
           <button onClick={toggleEditMode}>Edit Card</button>
         </div>
       );
