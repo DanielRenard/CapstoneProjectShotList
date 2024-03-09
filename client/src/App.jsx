@@ -5,6 +5,7 @@ import NavBar from './components/NavBar'
 import Content from './components/Content'
 import { UserProvider } from './context/userContext'
 import MyThemeProvider from './context/ThemeContext'
+import Footer from './components/Footer'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Header/>
           <NavBar/>
           <Content/>
+          <Footer/>
         </MyThemeProvider>
       </UserProvider>
     </div>
