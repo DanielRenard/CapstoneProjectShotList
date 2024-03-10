@@ -13,7 +13,7 @@ function CardList() {
     try {
       const response = await axios.get(`http://localhost:8085/api/shots/usershots/${currentUser._id}`);
       // Sets up the data to currentShots
-      console.log(response.data);
+      console.log(response.data.data);
       setCurrentShots(response.data.data);
     } catch (error) {
       console.error("Error fetching data: ", error);
