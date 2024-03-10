@@ -44,7 +44,33 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
     reader.readAsDataURL(e.target.files[0]);
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmitProducer = async (e) => {
+    e.preventDefault();
+    // console.log(image)
+
+    const taggedUsers = Array.from(
+      document.querySelectorAll(
+        ".shotFormUserTags input[type='checkbox']:checked"
+      )
+    ).map((input) => input.value);
+
+    const data = {
+      dataBaseID: dataBaseID,
+      user: currentUser._id,
+      name: name,
+      image: image,
+      description: description,
+      taggedUsers: taggedUsers,
+    };
+
+    // let reader = new FileReader()
+    // reader.addEventListener("load", (event) => {console.log(event)
+    //   onSubmit(data);})
+    onSubmit(data);
+    // reader.readAsDataURL(image)
+  };
+
+  const handleSubmitDirector = async (e) => {
     e.preventDefault();
     // console.log(image)
 
@@ -85,100 +111,152 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
     );
   });
 
-  return (
+  let producerFormTemplate = (
     <>
-      <div className="card">
-        <div className="input">
-          <form onSubmit={handleSubmit}>
-            <div className="formRow">
-              <label>User: ...{currentUser.userName}</label>
-              <br />
-              <label>
-                Shot Name:
-                <input
-                  type="text"
-                  value={name}
-                  name="name"
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </label>
-              <br />
-              <label>
-                Description:
-                <input
-                  type="text"
-                  value={description}
-                  name="description"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </label>
-              <br />
-              <label>
-                Image:
-                <input
-                  type="file"
-                  name="image"
-                  onChange={onImageChange}
-                />
-              </label>
-              <br />
-              <label>
-                Camera ID:
-                <input
-                  type="text"
-                  value={cameraId}
-                  name="cameraId"
-                  onChange={(e) => setCameraId(e.target.value)}
-                />
-              </label>
-              <br />
-              <label>
-                Camera Number:
-                <input
-                  type="number"
-                  value={cameraNumber}
-                  name="camerNumber"
-                  onChange={(e) => setCameraNumber(e.target.value)}
-                />
-              </label>
-              <br />
-              <label>
-                Set Piece:
-                <input
-                  type="text"
-                  value={setPiece}
-                  name="setPiece"
-                  onChange={(e) => setSetPiece(e.target.value)}
-                />
-              </label>
-              <br />
-              <label>
-                Associated Show:      
-                <input
-                  type="text"
-                  value={show}
-                  name="show"
-                  onChange={(e) => setShow(e.target.value)}
-                />
-              </label>
-              <br />
-              <div className="shotFormUserTags">
-                Tag a User:
-                {userDirectoryChecks}
-              </div>
+      <div className="input">
+        <form onSubmit={handleSubmitProducer}>
+          <div className="formRow">
+            <label>User: ...{currentUser.userName}</label>
+            <br />
+            <label>
+              Shot Name:
               <input
-                type="hidden"
-                value={dataBaseID}
-                name="_id"
-                onChange={(e) => setDataBaseId(e.target.value)}
+                type="text"
+                value={name}
+                name="name"
+                onChange={(e) => setName(e.target.value)}
               />
+            </label>
+            <br />
+            <label>
+              Description:
+              <input
+                type="text"
+                value={description}
+                name="description"
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Image:
+              <input type="file" name="image" onChange={onImageChange} />
+            </label>
+            <br />
+            <div className="shotFormUserTags">
+              Tag a User:
+              {userDirectoryChecks}
             </div>
-            <div className="formRow">
-              <button>Submit</button>
-            </div>
-          </form>
-        </div>
+            <input
+              type="hidden"
+              value={dataBaseID}
+              name="_id"
+              onChange={(e) => setDataBaseId(e.target.value)}
+            />
+          </div>
+          <div className="formRow">
+            <button>Submit</button>
+          </div>
+        </form>
       </div>
     </>
+  );
+
+  let directorFromTemplate = (
+    <>
+      <div className="input">
+        <form onSubmit={handleSubmitDirector}>
+          <div className="formRow">
+            <label>User: ...{currentUser.userName}</label>
+            <br />
+            <label>
+              Shot Name:
+              <input
+                type="text"
+                value={name}
+                name="name"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Description:
+              <input
+                type="text"
+                value={description}
+                name="description"
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Image:
+              <input type="file" name="image" onChange={onImageChange} />
+            </label>
+            <br />
+            <label>
+              Camera ID:
+              <input
+                type="text"
+                value={cameraId}
+                name="cameraId"
+                onChange={(e) => setCameraId(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Camera Number:
+              <input
+                type="number"
+                value={cameraNumber}
+                name="camerNumber"
+                onChange={(e) => setCameraNumber(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Set Piece:
+              <input
+                type="text"
+                value={setPiece}
+                name="setPiece"
+                onChange={(e) => setSetPiece(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Associated Show:
+              <input
+                type="text"
+                value={show}
+                name="show"
+                onChange={(e) => setShow(e.target.value)}
+              />
+            </label>
+            <br />
+            <div className="shotFormUserTags">
+              Tag a User:
+              {userDirectoryChecks}
+            </div>
+            <input
+              type="hidden"
+              value={dataBaseID}
+              name="_id"
+              onChange={(e) => setDataBaseId(e.target.value)}
+            />
+          </div>
+          <div className="formRow">
+            <button>Submit</button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+
+  return (
+    <div className="card">
+      {currentUser.userType === "producer" ? producerFormTemplate : ""};
+      {currentUser.userType === "director" ? directorFromTemplate : ""}
+    </div>
   );
 }
