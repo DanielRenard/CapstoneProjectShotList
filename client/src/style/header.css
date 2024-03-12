@@ -1,16 +1,14 @@
 .Header {
-    padding: 20px;
+    /* padding: 3px; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
     text-align: left;
     color: Black;
-    /* font-family: 'Times New Roman', Times, serif; */
-    font-size: 30px;
-    background-color: aqua;
+    font-size: 40px;
+    background-color: #40B3AE;
 }
 
 .Header .HeaderImage {
     height: 120px;
-    /* width: 100px; */
     display: inline;
 }
 
