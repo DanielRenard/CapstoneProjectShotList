@@ -2,7 +2,7 @@ import { useState } from "react";
 import ShotForm from "./ShotForm";
 import { useEffect } from "react";
 import axios from "axios";
-
+import "/src/style/card.css"
 
 function Card({ shot, onDeleteEvent, onUpdate }) {
 
@@ -58,7 +58,7 @@ function Card({ shot, onDeleteEvent, onUpdate }) {
       // if statement shorthand; check for image before parsing; need to make api call for taggedUsers similar to shotUser gonna be an array and ea will be an user
       template = (
         <div>
-          <img width={200} src={shot.image?JSON.parse(shot.image):""}></img> 
+          <img className="imageCenter" width={200} src={shot.image?JSON.parse(shot.image) :"" }></img> 
           <h2 key={shot._id}>User: {shotUser?.userName}</h2>
           <h3>Shot Name: {shot.name} </h3>
           <h3>Camera: {shot.cameraNumber}</h3>

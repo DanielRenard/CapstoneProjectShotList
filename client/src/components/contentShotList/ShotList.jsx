@@ -18,7 +18,7 @@ const columns = [
     headerName: "Image",
     width: 110,
     renderCell: (params) => {
-      return <img className="tableImage" width="100px" src={JSON.parse(params.value)} />;
+      return <div className="imageContainer"><img className="tableImage" width="100px" src={JSON.parse(params.value)} /></div>;
     },
   },
   { field: "show", headerName: "Show", width: 200 },

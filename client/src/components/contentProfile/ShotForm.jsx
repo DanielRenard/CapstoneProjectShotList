@@ -255,7 +255,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
 
   return (
     <div className="card">
-      {currentUser.userType === "producer" ? producerFormTemplate : ""};
+      {currentUser.userType === "producer" ? producerFormTemplate : ""}
       {currentUser.userType === "director" ? directorFromTemplate : ""}
     </div>
   );
