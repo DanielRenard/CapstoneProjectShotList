@@ -4,6 +4,7 @@ import "/src/style/footer.css";
 export default function Footer() {
   let externalLinks = (
     <>
+      <a href="https://imageresizer.com/image-compressor" target="_blank">Image Compressor</a>
       <a href="https://outlook.office.com/mail/" target="_blank">
         Outlook
       </a>

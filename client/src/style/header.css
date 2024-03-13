@@ -1,18 +1,19 @@
 .Header {
     /* padding: 3px; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
-    text-align: left;
+    text-align: center;
     color: Black;
     font-size: 40px;
     background-color: #40B3AE;
 }
 
 .Header .HeaderImage {
-    height: 120px;
+    height: 70px;
     display: inline;
 }
 
 .Header .HeaderTitle {
     display: inline;
+    
     padding: 20px;
 }

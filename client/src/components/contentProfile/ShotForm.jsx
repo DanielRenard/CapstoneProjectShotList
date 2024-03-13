@@ -104,7 +104,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
 
   let userDirectoryChecks = userDirectory?.map((user) => {
     return (
-      <label key={user._id}>
+      <label className="taggedUserContainer" key={user._id}>
         <input value={user._id} type="checkbox" />
         {user.userName}
       </label>
@@ -116,8 +116,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
       <div className="input">
         <form onSubmit={handleSubmitProducer}>
           <div className="formRow">
-            <label>User: ...{currentUser.userName}</label>
-            <br />
+            <label><h3>User: ...{currentUser.userName}</h3></label>
             <label>
               Shot Name:
               <input
@@ -142,10 +141,9 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
               Image:
               <input type="file" name="image" onChange={onImageChange} />
             </label>
-            <br />
             <div className="shotFormUserTags">
-              Tag a User:
-              {userDirectoryChecks}
+              <h4>Tag a User:</h4>
+              <div>{userDirectoryChecks}</div>
             </div>
             <input
               type="hidden"
@@ -167,8 +165,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
       <div className="input">
         <form onSubmit={handleSubmitDirector}>
           <div className="formRow">
-            <label>User: ...{currentUser.userName}</label>
-            <br />
+            <label><h3>User:... {currentUser.userName}</h3></label>
             <label>
               Shot Name:
               <input
@@ -233,10 +230,9 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
                 onChange={(e) => setShow(e.target.value)}
               />
             </label>
-            <br />
             <div className="shotFormUserTags">
-              Tag a User:
-              {userDirectoryChecks}
+              <h4>Tag a User:</h4>
+              <div>{userDirectoryChecks}</div>
             </div>
             <input
               type="hidden"

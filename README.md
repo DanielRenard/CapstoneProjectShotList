@@ -53,7 +53,9 @@ After installing, run the server using npm start. If, instead, you get something
 
 Server running at http://127.0.0.1:8085/
 
-events.js:72 throw er; // Unhandled 'error' event ^ Error: listen EADDRINUSE at errnoException (net.js:901:11) at Server._listen2 (net.js:1039:14) at listen (net.js:1061:10) at Server.listen (net.js:1127:5) ... Once the server is running, test it by visiting the following URL in your browser:
+events.js:72 throw er; // Unhandled 'error' event ^ Error: listen EADDRINUSE at errnoException (net.js:901:11) at Server._listen2 (net.js:1039:14) at listen (net.js:1061:10) at Server.listen (net.js:1127:5) ... 
+
+Once the server is running, test it by visiting the following URL in your browser:
 
 http://localhost:5173/
 
