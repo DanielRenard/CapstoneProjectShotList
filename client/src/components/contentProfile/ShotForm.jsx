@@ -116,7 +116,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
       <div className="input">
         <form onSubmit={handleSubmitProducer}>
           <div className="formRow">
-            <label><h3>User: ...{currentUser.userName}</h3></label>
+            <h3>User: ... {currentUser.userName}</h3>
             <label>
               Shot Name:
               <input
@@ -165,7 +165,7 @@ export default function ShotForm({ onSubmit, aShot = {} }) {
       <div className="input">
         <form onSubmit={handleSubmitDirector}>
           <div className="formRow">
-            <label><h3>User:... {currentUser.userName}</h3></label>
+            <h3>User: ... {currentUser.userName}</h3>
             <label>
               Shot Name:
               <input
